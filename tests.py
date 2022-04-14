@@ -11,16 +11,7 @@ def chi_test(data, column1, column2):
     contingency = pd.crosstab(data[column1], data[column2])
     print(contingency)
     chi2, p, dof, expected = stats.chi2_contingency(contingency)
-    print(f'p-value for {column1} and {column2}: {p}')
-
-
-def t_test(data1, data2, equal_var):
-    ttest = stats.ttest_ind(data1, data2, equal_var=equal_var)
-    print('T-test p-value:',ttest.pvalue)
-    if ttest.pvalue < ALPHA:
-        print(f'The means of {data1.__name__} and {data2.__name__} are different.')
-    else:
-        print(f'The means of {data1.__name__} and {data2.__name__} are not different.')
+    print(f'Chi-Squared Test p-value for {column1} and {column2}: {p}')
 
 
 # 3. There is a difference in mean incomes of those who are landed immigrants vs those who are not
@@ -33,7 +24,7 @@ def imm_income(data):
     pval = stats.levene(imm_data, non_data).pvalue
     equal_var = pval < ALPHA
     ttest = stats.ttest_ind(imm_data, non_data, equal_var=equal_var)
-    print('p-value:', ttest.pvalue)
+    print('T-test p-value:', ttest.pvalue)
 
 
 # ANOVA on incomes 
@@ -85,17 +76,17 @@ def income_gender(dflog):
     male_income = mf_income.loc[mf_income['SEX'] == 'Male'] # male after tax income
     female_income = mf_income.loc[mf_income['SEX']== 'Female'] # female after tax income
 
+    pval = stats.levene(male_income['ATINC'], female_income['ATINC']).pvalue
+    equal_var = pval < ALPHA
+    ttest = stats.ttest_ind(male_income['ATINC'], female_income['ATINC'],equal_var=equal_var)
+    print('T-Test p-value:', ttest.pvalue)
+
     # tests equal variance
-    print('Levene-test p-value:', stats.levene(male_income['ATINC'], female_income['ATINC']).pvalue) # pvalue < 0.05 
+    #print('Levene-test p-value:', stats.levene(male_income['ATINC'], female_income['ATINC']).pvalue) # pvalue < 0.05 
 
     # ttest
-    print('T-test p-value:',stats.ttest_ind(male_income['ATINC'], female_income['ATINC'],equal_var=False).pvalue)
-    # since the p-value < 0.05, there is sufficient evidence to reject the null hypothesis that both male and female after tax income are the same 
-    # therefore we conclude the income for male and females are different
-
-    #print(male_income['ATINC'].mean())
-    #print(female_income['ATINC'].mean())
-
+    #print('T-test p-value:',stats.ttest_ind(male_income['ATINC'], female_income['ATINC'],equal_var=False).pvalue)
+   
     sns.histplot(data=mf_income, x='ATINC', hue="SEX")
  
 
@@ -114,15 +105,11 @@ def major_source(dflog):
     # ANOVA test to determine if the means of any of the groups differ
     anova = stats.f_oneway(inc2['ATINC'], inc3['ATINC'], inc4['ATINC'], inc5['ATINC'], inc6['ATINC'], inc7['ATINC'])
     print("\nANOVA p-value:",anova.pvalue,"\n") 
-    # alpha < 0.05 hence we have sufficient evidence to reject the null hypothesis that the means of the groups are the same.
-    # to conclude, the means of the groups are different. 
 
     # post hoc Tukey Test
     posthoc = pairwise_tukeyhsd(maj_income['ATINC'], maj_income['MAJRI'], alpha=0.05)
     print(posthoc)
 
-    #fig = posthoc.plot_simultaneous();
-    #plt.show()
 
 
 # Adapted from: https://seaborn.pydata.org/examples/jitter_stripplot.html
