@@ -5,11 +5,16 @@ from sklearn.inspection import permutation_importance
 
 # function to classify income levels 
 def income_classifier(df):
-    if df['ATINC'] <= 32048: return "Low"
-    elif (df['ATINC'] > 32048) & (df['ATINC'] <= 53413): return "Lower-middle"
-    elif (df['ATINC'] > 53413) & (df['ATINC'] <= 106827): return "Middle"
-    elif (df['ATINC'] > 106827) & (df['ATINC'] <= 373894): return "Upper-middle"
-    elif (df['ATINC'] > 373894): return "Upper"
+    lower = np.percentile(df['ATINC'], 25)
+    lower_middle = np.percentile(df['ATINC'], 50)
+    middle = np.percentile(df['ATINC'], 75)
+    upper_middle = np.percentile(df['ATINC'], 95)
+
+    if df['ATINC'] <= lower: return "Low"
+    elif (df['ATINC'] > lower) & (df['ATINC'] <= lower_middle): return "Lower-middle"
+    elif (df['ATINC'] > lower_middle) & (df['ATINC'] <= middle): return "Middle"
+    elif (df['ATINC'] > middle) & (df['ATINC'] <= upper_middle): return "Upper-middle"
+    elif (df['ATINC'] > upper_middle): return "Upper"
 # Reference: https://www.ictsd.org/what-income-class-are-you-canada/
 
 
