@@ -91,7 +91,7 @@ def income_gender(dflog):
     # ttest
     print('T-test p-value:',stats.ttest_ind(male_income['ATINC'], female_income['ATINC'],equal_var=False).pvalue)
     # since the p-value < 0.05, there is sufficient evidence to reject the null hypothesis that both male and female after tax income are the same 
-    # therefore we conclude the income for male and females are different. 
+    # therefore we conclude the income for male and females are different
 
     #print(male_income['ATINC'].mean())
     #print(female_income['ATINC'].mean())
