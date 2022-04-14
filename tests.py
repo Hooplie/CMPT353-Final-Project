@@ -80,12 +80,6 @@ def income_gender(dflog):
     equal_var = pval < ALPHA
     ttest = stats.ttest_ind(male_income['ATINC'], female_income['ATINC'],equal_var=equal_var)
     print('T-Test p-value:', ttest.pvalue)
-
-    # tests equal variance
-    #print('Levene-test p-value:', stats.levene(male_income['ATINC'], female_income['ATINC']).pvalue) # pvalue < 0.05 
-
-    # ttest
-    #print('T-test p-value:',stats.ttest_ind(male_income['ATINC'], female_income['ATINC'],equal_var=False).pvalue)
    
     sns.histplot(data=mf_income, x='ATINC', hue="SEX")
  
