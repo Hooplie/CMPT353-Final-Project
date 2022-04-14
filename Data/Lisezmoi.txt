@@ -1,0 +1,13 @@
+/*******************************************************************************************************************/
+ *                                                                                                                 *
+ * Le FMGD de l’ECR est un « fichier-personne », ce qui signifie qu’il y a un enregistrement pour chaque personne  *
+ * faisant partie des ménages répondants. Si l’unité d’analyse n’est pas la personne (p. ex., le ménage, la        *
+ * famille économique ou la famille de recensement), les utilisateurs  doivent conserver un seul enregistrement    *
+ * par unité d’analyse. Pour ce faire, une façon simple est de conserver uniquement l’enregistrement du soutien    *
+ * économique principal de l’unité d’analyse :                                                                     *                                                                     
+ *    - si l’unité d’analyse est la famille économique, conserver uniquement les enregistrements où EFMJIE=1 ;     *
+ *    -	si l'unité d'analyse est le ménage, conserver uniquement les enregistrements où HHMJIE=1;                  *
+ *    -	si l’unité d’analyse est la famille de recensement, conserver uniquement les enregistrements où CFMJIE=1.  *
+ *                                                                                                                 *
+ *                                                                                                                 *
+/*******************************************************************************************************************/
