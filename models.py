@@ -6,17 +6,23 @@ from sklearn.inspection import permutation_importance
 
 # function to classify income levels 
 def income_classifier(df):
+    df['ATINC'] = df['ATINC'].to_numpy()
     lower = np.percentile(df['ATINC'], 25)
     lower_middle = np.percentile(df['ATINC'], 50)
     middle = np.percentile(df['ATINC'], 75)
     upper_middle = np.percentile(df['ATINC'], 95)
 
-    if df['ATINC'] <= lower: return "Low"
-    elif (df['ATINC'] > lower) & (df['ATINC'] <= lower_middle): return "Lower-middle"
-    elif (df['ATINC'] > lower_middle) & (df['ATINC'] <= middle): return "Middle"
-    elif (df['ATINC'] > middle) & (df['ATINC'] <= upper_middle): return "Upper-middle"
-    elif (df['ATINC'] > upper_middle): return "Upper"
-# Reference: https://www.ictsd.org/what-income-class-are-you-canada/
+    df.loc[df['ATINC'] > upper_middle, 'ATINC'] = 'Upper'
+    df.loc[df['ATINC'] > middle, 'ATINC'] = 'Upper-middle'
+    df.loc[df['ATINC'] > lower_middle, 'ATINC'] = 'Middle'
+    df.loc[df['ATINC'] > lower, 'ATINC'] = 'lower-middle'
+    df.loc[df['ATINC'] <= lower, 'ATINC'] = 'Lower'
+
+    #if (df['ATINC'] <= lower): return "Low"
+    #elif (df['ATINC'] > lower) & (df['ATINC'] <= lower_middle): return "Lower-middle"
+    #elif (df['ATINC'] > lower_middle) & (df['ATINC'] <= middle): return "Middle"
+    #elif (df['ATINC'] > middle) & (df['ATINC'] <= upper_middle): return "Upper-middle"
+    #elif (df['ATINC'] > upper_middle): return "Upper"
 
 
 # feature importance
