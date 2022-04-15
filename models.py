@@ -1,29 +1,15 @@
 import pandas as pd
 import matplotlib.pyplot as plt
-import numpy as np
 from sklearn.inspection import permutation_importance
 
 
 # function to classify income levels 
 def income_classifier(df):
-    df['ATINC'] = df['ATINC'].to_numpy()
-    lower = np.percentile(df['ATINC'], 25)
-    lower_middle = np.percentile(df['ATINC'], 50)
-    middle = np.percentile(df['ATINC'], 75)
-    upper_middle = np.percentile(df['ATINC'], 95)
-
-    df.loc[df['ATINC'] > upper_middle, 'ATINC'] = 'Upper'
-    df.loc[df['ATINC'] > middle, 'ATINC'] = 'Upper-middle'
-    df.loc[df['ATINC'] > lower_middle, 'ATINC'] = 'Middle'
-    df.loc[df['ATINC'] > lower, 'ATINC'] = 'lower-middle'
-    df.loc[df['ATINC'] <= lower, 'ATINC'] = 'Lower'
-
-    #if (df['ATINC'] <= lower): return "Low"
-    #elif (df['ATINC'] > lower) & (df['ATINC'] <= lower_middle): return "Lower-middle"
-    #elif (df['ATINC'] > lower_middle) & (df['ATINC'] <= middle): return "Middle"
-    #elif (df['ATINC'] > middle) & (df['ATINC'] <= upper_middle): return "Upper-middle"
-    #elif (df['ATINC'] > upper_middle): return "Upper"
-
+    if (df['ATINC'] <= 35290.0): return "Low"
+    elif (df['ATINC'] > 35290.0) & (df['ATINC'] <= 49230.0): return "Lower-middle"
+    elif (df['ATINC'] > 49230.0) & (df['ATINC'] <= 69692.5): return "Middle"
+    elif (df['ATINC'] > 69692.5) & (df['ATINC'] <= 114920.0): return "Upper-middle"
+    elif (df['ATINC'] > 114920.0): return "Upper"
 
 # feature importance
 def feature_imp(model, X_test, y_test):
