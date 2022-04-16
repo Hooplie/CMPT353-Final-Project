@@ -26,6 +26,8 @@ def imm_income(data):
     ttest = stats.ttest_ind(imm_data, non_data, equal_var=equal_var)
     print('T-test p-value:', ttest.pvalue)
 
+    sns.histplot(data=data, x='ATINC', hue="IMMST")
+
 
 # ANOVA on incomes 
 def anova(data):
@@ -135,3 +137,21 @@ def stripplot(melt_data, num_feature, cat_feature):
     ax.legend(handles[num_vars:], labels[num_vars:], title=cat_feature,
             handletextpad=0, columnspacing=1,
             loc="lower right", ncol=num_vars, frameon=False)
+
+
+# Test to determine if incomes differ based on education level
+def educ_level(dflog):
+    # splitting data
+    educ = dflog[['HLEV2G','ATINC']] 
+    none = educ.loc[educ['HLEV2G'] == 'Less than HS'] 
+    hs = educ.loc[educ['HLEV2G'] == 'Graduated HS']  
+    diploma = educ.loc[educ['HLEV2G'] == 'Certificate or Diploma'] 
+    degree = educ.loc[educ['HLEV2G'] == 'University Degree'] 
+
+    # ANOVA test to determine if the means of any of the groups differ
+    anova = stats.f_oneway(none['ATINC'], hs['ATINC'], diploma['ATINC'], degree['ATINC'])
+    print("\nANOVA p-value:",anova.pvalue,"\n") 
+
+    # post hoc Tukey Test
+    posthoc = pairwise_tukeyhsd(educ['ATINC'], educ['HLEV2G'], alpha=0.05)
+    print(posthoc)
