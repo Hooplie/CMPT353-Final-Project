@@ -1,4 +1,4 @@
-# cmpt353proj
+# CMPT353 Final Project 
 
 Required libraries: pandas, numpy, sklearn, seaborn, matplotlib, scipy, statsmodels
 
