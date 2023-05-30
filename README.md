@@ -1,8 +1,8 @@
 # CMPT353 Final Project 
 
-Required libraries: pandas, numpy, sklearn, seaborn, matplotlib, scipy, statsmodels
-
 Income analysis and classification. 
+
+Required libraries: pandas, numpy, sklearn, seaborn, matplotlib, scipy, statsmodels
 
 Steps to run (follow in order):
 1. IMPORTANT! Do not change the internal folder structure.
